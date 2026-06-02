@@ -11,13 +11,25 @@ kotlin {
         jvmTarget = JvmTarget.JVM_11
     }
 }
+
 dependencies {
     implementation(projects.shared)
+    implementation(projects.featureAuth)
+    implementation(projects.featureAccounts)
+    implementation(projects.featureCheckDeposit)
+    implementation(projects.featureP2pTransfer)
 
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.biometric)
 
     implementation(libs.compose.uiToolingPreview)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.foundation.layout)
     debugImplementation(libs.compose.uiTooling)
+    
+    // Koin
+    implementation(libs.koin.android)
+    implementation(libs.koin.core)
 }
 
 android {

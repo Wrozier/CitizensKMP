@@ -30,10 +30,11 @@ dependencyResolutionManagement {
 
 include(":androidApp")
 include(":shared")
-include(":app:feature-auth")
 include(":feature-auth")
 include(":feature-accounts")
 include(":feature-transactions")
 include(":feature-check-deposit")
 include(":feature-p2p-transfer")
 include(":data")
+include(":domain")
+include(":presentation")

@@ -1,0 +1,23 @@
+CREATE TABLE Account (
+    id TEXT PRIMARY KEY,
+    userID TEXT,
+    balance REAL,
+    accountType TEXT,
+    lastUpdated TEXT
+);
+
+CREATE TABLE AccountTransaction (
+    id TEXT PRIMARY KEY,
+    accountId TEXT,
+    amount REAL,
+    type TEXT,
+    description TEXT,
+    timestamp TEXT
+);
+
+-- Queries
+selectAllAccounts:
+SELECT * FROM Account;
+
+selectAllTransactions:
+SELECT * FROM AccountTransaction;

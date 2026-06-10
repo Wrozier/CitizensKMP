@@ -4,16 +4,11 @@ plugins {
 
 android {
     namespace = "com.tc.data"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = 24
-
-        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -33,8 +28,14 @@ android {
 }
 
 dependencies {
-    implementation(libs.appcompat.v7)
+    implementation(projects.shared)
+    implementation(projects.domain)
+    
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.sqlDelight.runtime)
+    implementation(libs.sqldelight.coroutines)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.koin.core)
+    
     testImplementation(libs.junit)
-    androidTestImplementation(libs.runner)
-    androidTestImplementation(libs.espresso.core)
 }

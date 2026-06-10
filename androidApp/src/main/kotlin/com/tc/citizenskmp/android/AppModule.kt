@@ -1,5 +1,5 @@
 package com.tc.citizenskmp.android
-// androidApp/src/main/kotlin/com/tc/citizenskmp/android/AppModule.kt
+
 
 import android.app.Application
 import com.tc.citizenskmp.di.databaseModule

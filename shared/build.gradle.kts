@@ -9,14 +9,29 @@ plugins {
 }
 
 kotlin {
+    // Suppress expect/actual classes Beta warning
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
+
     listOf(
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
+        iosTarget.binaries.all {
+            linkerOpts("-lsqlite3")
+            linkerOpts("-Xlinker", "-ld_classic")
+            linkerOpts("-Xlinker", "-no_warn_duplicate_libraries")
+            linkerOpts("-Xlinker", "-no_warn_search_path")
+            linkerOpts("-Xlinker", "-not_allowed_client_warning")
+        }
+        
         iosTarget.binaries.framework {
             baseName = "Shared"
             isStatic = true
+            export(libs.koin.core)
+            export(libs.sqldelight.native.driver)
         }
     }
     
@@ -27,6 +42,7 @@ kotlin {
     
        compilerOptions {
            jvmTarget.set(JvmTarget.JVM_11)
+           freeCompilerArgs.add("-Xexpect-actual-classes")
        }
        androidResources {
            enable = true
@@ -38,26 +54,32 @@ kotlin {
     
     sourceSets {
         androidMain.dependencies {
-            implementation(libs.compose.uiToolingPreview)
             implementation(libs.sqldelight.android.driver)
             implementation(libs.koin.android)
             implementation(libs.androidx.security.crypto)
+            implementation(libs.compose.uiToolingPreview)
         }
         commonMain.dependencies {
-            implementation(libs.compose.runtime)
-            implementation(libs.compose.foundation)
-            implementation(libs.compose.material3)
-            implementation(libs.compose.ui)
-            implementation(libs.compose.components.resources)
+            api(projects.domain)
+            // api(projects.data) // Removed to break circular dependency: data -> shared -> data
+            // implementation(projects.featureAuth) // Removed to break circular dependency: feature-auth -> shared -> feature-auth
+
+             implementation(projects.featureAccounts)
+             implementation(projects.featureTransactions)
+             implementation(projects.featureCheckDeposit)
+             implementation(projects.featureP2pTransfer)
+
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(compose.ui)
+            implementation(compose.components.resources)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
-            implementation(libs.koin.core)
+            api(libs.koin.core)
         }
         iosMain.dependencies {
-            implementation(libs.sqldelight.native.driver)
-        }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
+            api(libs.sqldelight.native.driver)
         }
     }
 }

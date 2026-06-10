@@ -9,10 +9,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.tc.citizenskmp.android.android.Transaction
+import com.tc.feature_transactions.presentation.Transaction
+import com.tc.feature_transactions.presentation.TransactionItem
 
 
 @Composable
@@ -20,9 +20,10 @@ fun DashboardScreen(
     onLogout: () -> Unit,
     onAccountClick: () -> Unit,
     onDepositClick: () -> Unit,
-    onP2PClick: () -> Unit
+    onP2PClick: () -> Unit,
+    onSeeAllTransactionsClick: () -> Unit
 ) {
-    // Handle back button to logout/go back to login
+
     BackHandler {
         onLogout()
     }
@@ -47,7 +48,7 @@ fun DashboardScreen(
         ) {
             item {
                 Column {
-                    // Header
+
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -73,7 +74,7 @@ fun DashboardScreen(
 
                     Spacer(modifier = Modifier.height(32.dp))
 
-                    // Balance Card - Clickable to navigate to Accounts
+
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -108,7 +109,7 @@ fun DashboardScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // Quick Actions
+
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -129,12 +130,21 @@ fun DashboardScreen(
 
                     Spacer(modifier = Modifier.height(32.dp))
 
-                    // Recent Transactions Section
-                    Text(
-                        text = "Recent Transactions",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold
-                    )
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Recent Transactions",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold
+                        )
+                        TextButton(onClick = onSeeAllTransactionsClick) {
+                            Text("See All")
+                        }
+                    }
                     
                     Spacer(modifier = Modifier.height(4.dp))
                 }
@@ -143,43 +153,6 @@ fun DashboardScreen(
             items(transactions) { transaction ->
                 TransactionItem(transaction)
             }
-        }
-    }
-}
-
-@Composable
-fun TransactionItem(transaction: Transaction) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
-        )
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column {
-                Text(
-                    text = transaction.title,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold
-                )
-                Text(
-                    text = transaction.date,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-            Text(
-                text = transaction.amount,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = if (transaction.isNegative) MaterialTheme.colorScheme.error else Color(0xFF4CAF50)
-            )
         }
     }
 }

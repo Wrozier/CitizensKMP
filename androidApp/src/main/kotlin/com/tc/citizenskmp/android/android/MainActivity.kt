@@ -20,6 +20,7 @@ import com.tc.feature_auth.presentation.create.CreateAccountScreen
 import com.tc.feature_auth.presentation.login.LoginScreen
 import com.tc.feature_check_deposit.presentation.CheckDepositScreen
 import com.tc.feature_p2p_transfer.presentation.P2PTransferScreen
+import com.tc.feature_transactions.presentation.TransactionsScreen
 
 class MainActivity : FragmentActivity() {
 
@@ -28,7 +29,7 @@ class MainActivity : FragmentActivity() {
 
         setContent {
             CitizensKMPTheme {
-                // screen state can be "login", "dashboard", "create_account", "accounts", "check_deposit", or "p2p_transfer"
+
                 var currentScreen by remember { mutableStateOf("login") }
 
                 when (currentScreen) {
@@ -71,6 +72,9 @@ class MainActivity : FragmentActivity() {
                             },
                             onP2PClick = {
                                 currentScreen = "p2p_transfer"
+                            },
+                            onSeeAllTransactionsClick = {
+                                currentScreen = "transactions"
                             }
                         )
                     }
@@ -94,6 +98,13 @@ class MainActivity : FragmentActivity() {
                     }
                     "p2p_transfer" -> {
                         P2PTransferScreen(
+                            onBack = {
+                                currentScreen = "dashboard"
+                            }
+                        )
+                    }
+                    "transactions" -> {
+                        TransactionsScreen(
                             onBack = {
                                 currentScreen = "dashboard"
                             }

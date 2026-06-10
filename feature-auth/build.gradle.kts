@@ -6,6 +6,11 @@ plugins {
 }
 
 kotlin {
+    // Suppress expect/actual classes Beta warning
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
+
     androidLibrary {
         namespace = "com.tc.citizenskmp.auth"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
@@ -21,14 +26,26 @@ kotlin {
         withHostTest {}
     }
 
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.all {
+            // 1. Resolve SQLite symbols
+            linkerOpts("-lsqlite3")
+            
+            // 2. Resolve Xcode 15/16 linker issues
+            linkerOpts("-Xlinker", "-ld_classic")
+            
+            // 3. Suppress warnings
+            linkerOpts("-Xlinker", "-no_warn_duplicate_libraries")
+            linkerOpts("-Xlinker", "-no_warn_search_path")
+        }
+    }
 
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.shared)
-
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)

@@ -14,10 +14,13 @@ kotlin {
 
 dependencies {
     implementation(projects.shared)
+    implementation(projects.data)
+    implementation(projects.domain)
     implementation(projects.featureAuth)
     implementation(projects.featureAccounts)
     implementation(projects.featureCheckDeposit)
     implementation(projects.featureP2pTransfer)
+    implementation(projects.featureTransactions)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.biometric)

@@ -4,7 +4,7 @@ import Shared
 @main
 struct CitizensApp: App {
     init() {
-        KoinHelper().initKoin()
+        KoinHelper().start()
     }
 
     var body: some Scene {

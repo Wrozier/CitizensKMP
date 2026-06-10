@@ -23,7 +23,17 @@ dependencies {
     implementation(projects.featureTransactions)
 
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.biometric)
+    implementation(libs.androidx.core.ktx)
+    
+    // Explicit Lifecycle dependencies to resolve 'LifecycleOwner' access issues
+    implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.common)
+    implementation(libs.androidx.lifecycle.java8)
 
     implementation(libs.compose.uiToolingPreview)
     implementation(libs.androidx.material3)
